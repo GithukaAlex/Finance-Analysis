@@ -1,0 +1,33 @@
+-- What are the names of all the customers who live in New York?
+--select CONCAT(firstname ,' ', lastname) from customers where city = 'New York'
+
+
+--What is the total number of accounts in the Accounts table?
+--select count(distinct accountid) from accounts
+--Select accounttype,count(distinct accountid) as accounts  from accounts group by accounttype order by accounts desc
+
+--What is the total balance of all checking accounts?
+--Select accounttype, sum(balance) as total_balance from accounts where accounttype = 'Checking' group by accounttype
+
+--What is the total balance of all accounts associated with customers who live in Los Angeles?
+--select sum(balance) from accounts where customerid in (select customerid from customers where city = 'Los Angeles')
+
+--Which branch has the highest average account balance?
+-- select BranchName, AVG(balance) balance_ from branches b left join accounts a on b.branchid = a.branchid  where balance is not null group by BranchName order by balance_ desc 
+
+--Which customer has the highest current balance in their accounts?
+--select CONCAT(FirstName, ' ', LastName) as Customer_Name, balance from customers c left join accounts a on c.customerid = a.customerid order by balance desc limit 1
+
+--****Which customer has made the most transactions in the Transactions table?
+--****select accountid, count(transactionid) as total_transactions, sum(ABS(amount)) as am from transactions group by accountid order by am desc, total_transactions desc
+
+--Which branch has the highest total balance across all of its accounts?
+
+-- select BranchName from branches where branchid =(select branchid from Accounts group by branchid order by  sum(balance) Desc limit 1 )
+
+--Which customer has the highest total balance across all of their accounts, including savings and checking accounts?
+
+--select CONCAT(FirstName, ' ', LastName) as Customer_Name from customers where customerid = (select customerid from accounts group by customerid order by sum(balance) DESC limit 1)
+
+--Which branch has the highest number of transactions in the Transactions table?
+--select BranchName from branches b left join accounts a on b.branchid = a.branchid where a.accountid = (select accountid from transactions group by accountid order by sum(transactionId) DESC limit 1)
